@@ -1,12 +1,12 @@
-import { Container } from '@mui/material';
+import { Button, Container } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { MyTable } from './components/MyTable';
 import { Toolbar } from './components/Toolbar';
 import { BASE_URL } from './config';
 
-const initialData = {
+const initialParams = {
     seed: '',
-    region: 'ua',
+    region: 'us',
     errors: 0,
 };
 
@@ -19,13 +19,13 @@ export const App = () => {
     const [submitLoading, setSubmitLoading] = useState(false);
     const [results, setResults] = useState(initialResults);
     const [page, setPage] = useState(initialPage);
-    const [data, setData] = useState(initialData);
+    const [params, setParams] = useState(initialParams);
 
     const handleResult = () => setResults(10);
     const addPage = () => setPage(page + 1);
 
     const loadData = () => {
-        const { seed, region, errors } = data;
+        const { seed, region, errors } = params;
 
         setLoading(true);
 
@@ -33,30 +33,22 @@ export const App = () => {
             `${BASE_URL}/generate?nat=${region}&results=${results}&seed=${seed}&page=${page}&errors=${errors}`
         )
             .then((res) => res.json())
-            .then((data) => setUsers([...users, ...data.results]))
-            .catch((err) => {
-                setLoading(true);
-                console.log(err);
-            })
+            .then((data) => setUsers([...users, ...data]))
+            .catch((err) => console.log(err))
             .finally(() => {
                 setLoading(false);
                 setSubmitLoading(false);
             });
     };
 
-    // const resetParams = () => {
-    //     setUsers([]);
-    //     setResults(initialResults);
-    //     setPage(initialPage);
-    // };
+    const resetParams = () => {
+        setUsers([]);
+        setResults(initialResults);
+        setPage(initialPage);
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
-        // if (JSON.stringify(initialData) !== JSON.stringify(data)) {
-        //     setData(initialData);
-        //     setUsers([]);
-        // }
 
         setSubmitLoading(true);
         loadData();
@@ -69,10 +61,14 @@ export const App = () => {
             const error = +target.value;
 
             if (error <= 1000 && error >= 0) {
-                setData({ ...data, [target.name]: error });
+                setParams({ ...params, [target.name]: error });
             }
         } else {
-            setData({ ...data, [target.name]: target.value });
+            setParams({ ...params, [target.name]: target.value });
+        }
+
+        if (JSON.stringify(initialParams) !== JSON.stringify(params)) {
+            resetParams();
         }
     };
 
@@ -83,29 +79,39 @@ export const App = () => {
         }
     }, [page, results]);
 
-    // useEffect(() => {
-    //     if (reset) {
-    //         resetParams();
-    //         console.log(reset, users, page, results)
-    //     }
-    // }, [reset]);
-
     return (
         <Container>
             <Toolbar
                 handleSubmit={handleSubmit}
-                data={data}
+                params={params}
                 handleChange={handleChange}
                 submitLoading={submitLoading}
             />
             {!!users.length && (
-                <MyTable
-                    users={users}
-                    loading={loading}
-                    addPage={addPage}
-                    handleResult={handleResult}
-                    loadData={loadData}
-                />
+                <>
+                    <MyTable
+                        users={users}
+                        loading={loading}
+                        addPage={addPage}
+                        handleResult={handleResult}
+                    />
+                    <div
+                        style={{
+                            width: '100%',
+                            textAlign: 'end',
+                            marginTop: 45,
+                        }}
+                    >
+                        <Button
+                            style={{ height: 30 }}
+                            variant='contained'
+                            component='a'
+                            href={`${BASE_URL}/download`}
+                        >
+                            Export to CSV
+                        </Button>
+                    </div>
+                </>
             )}
         </Container>
     );

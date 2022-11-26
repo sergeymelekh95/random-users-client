@@ -4,7 +4,12 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export const Dropdown = ({ data, handleChange }) => {
+const countries = [
+    { label: 'USA', value: 'us' },
+    { label: 'Russia', value: 'ru' },
+];
+
+export const Dropdown = ({ params, handleChange }) => {
     return (
         <div>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -14,15 +19,17 @@ export const Dropdown = ({ data, handleChange }) => {
                 <Select
                     labelId='demo-simple-select-autowidth-label'
                     id='demo-simple-select-autowidth'
-                    value={data.region}
+                    value={params.region}
                     name='region'
                     onChange={handleChange}
                     autoWidth
                     label='region'
                 >
-                    <MenuItem value={'ua'}>Ukraine</MenuItem>
-                    <MenuItem value={'de'}>Germany</MenuItem>
-                    <MenuItem value={'us'}>USA</MenuItem>
+                    {countries.map((country, index) => (
+                        <MenuItem value={country.value} key={index}>
+                            {country.label}
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
         </div>

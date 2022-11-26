@@ -43,7 +43,6 @@ export const MyTable = ({
     loading,
     addPage,
     handleResult,
-    loadData,
 }) => {
     const tableEl = useRef();
     const [distanceBottom, setDistanceBottom] = useState(0);
@@ -58,7 +57,7 @@ export const MyTable = ({
             addPage();
             handleResult();
         }
-    }, [loading, distanceBottom, addPage, handleResult, loadData]);
+    }, [loading, distanceBottom, addPage, handleResult]);
 
     useLayoutEffect(() => {
         const tableRef = tableEl.current;
@@ -72,8 +71,7 @@ export const MyTable = ({
 
     return (
         <>
-            {loading && <LinearProgress />}
-
+            <div style={{ height: 5 }}>{loading && <LinearProgress />}</div>
             <TableContainer sx={{ maxHeight: 600 }} ref={tableEl}>
                 <Table stickyHeader aria-label='sticky table'>
                     <TableHead>
@@ -98,12 +96,12 @@ export const MyTable = ({
                                     hover
                                     role='checkbox'
                                     tabIndex={-1}
-                                    key={user.login.uuid}
+                                    key={user.id}
                                 >
                                     <TableCell>{index + 1}</TableCell>
-                                    <TableCell>{user.login.uuid}</TableCell>
-                                    <TableCell>{`${user.name.first} ${user.name.last}`}</TableCell>
-                                    <TableCell>{`${user.location.country} ${user.location.city} ${user.location.postcode}`}</TableCell>
+                                    <TableCell>{user.id}</TableCell>
+                                    <TableCell>{`${user.firstName} ${user.lastName} ${user.middleName}`}</TableCell>
+                                    <TableCell>{`${user.street} str., ${user.house} house, ${user.city}, ${user.country}`}</TableCell>
                                     <TableCell>{user.phone}</TableCell>
                                 </TableRow>
                             );
@@ -111,7 +109,7 @@ export const MyTable = ({
                     </TableBody>
                 </Table>
             </TableContainer>
-            {loading && <LinearProgress />}
+            <div style={{ height: 5 }}>{loading && <LinearProgress />}</div>
         </>
     );
 };

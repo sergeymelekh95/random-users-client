@@ -5,7 +5,7 @@ import { MySlider } from './MySlider';
 
 export const Toolbar = ({
     handleSubmit,
-    data,
+    params,
     handleChange,
     submitLoading,
 }) => {
@@ -18,17 +18,17 @@ export const Toolbar = ({
                 alignItems: 'start',
             }}
             mt={10}
-            mb={15}
+            mb={7}
             onSubmit={handleSubmit}
         >
-            <Dropdown data={data} handleChange={handleChange} />
-            <MySlider data={data} handleChange={handleChange} />
+            <Dropdown params={params} handleChange={handleChange} />
+            <MySlider params={params} handleChange={handleChange} />
             <TextField
                 id='seed'
                 label='Seed'
                 variant='outlined'
                 name='seed'
-                value={data.seed}
+                value={params.seed}
                 onChange={handleChange}
             />
             <LoadingButton
