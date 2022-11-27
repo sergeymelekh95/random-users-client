@@ -56,6 +56,8 @@ export const MyTable = ({ users, loading, addPage, handleResult }) => {
 
     const addStreet = (country) => {
         if(country === 'USA') return 'St.';
+
+        return ''
     };
 
     useLayoutEffect(() => {
