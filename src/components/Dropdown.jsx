@@ -6,7 +6,8 @@ import Select from '@mui/material/Select';
 
 const countries = [
     { label: 'USA', value: 'us' },
-    { label: 'Russia', value: 'ru' },
+    { label: 'Belarus', value: 'by' },
+    { label: 'Poland', value: 'pl' },
 ];
 
 export const Dropdown = ({ params, handleChange }) => {

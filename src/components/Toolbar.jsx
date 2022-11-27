@@ -2,7 +2,6 @@ import { Box, TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Dropdown } from './Dropdown';
 import { MySlider } from './MySlider';
-import { useState } from 'react';
 
 export const Toolbar = ({
     handleSubmit,
@@ -10,9 +9,6 @@ export const Toolbar = ({
     handleChange,
     loading,
 }) => {
-
-    // const [reset, setReset] = useState(false);
-
 
     return (
         <Box

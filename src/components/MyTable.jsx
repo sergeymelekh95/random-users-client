@@ -38,12 +38,7 @@ const columns = [
     },
 ];
 
-export const MyTable = ({
-    users,
-    loading,
-    addPage,
-    handleResult,
-}) => {
+export const MyTable = ({ users, loading, addPage, handleResult }) => {
     const tableEl = useRef();
     const [distanceBottom, setDistanceBottom] = useState(0);
 
@@ -58,6 +53,10 @@ export const MyTable = ({
             handleResult();
         }
     }, [loading, distanceBottom, addPage, handleResult]);
+
+    const addStreet = (country) => {
+        if(country === 'USA') return 'St.';
+    };
 
     useLayoutEffect(() => {
         const tableRef = tableEl.current;
@@ -100,8 +99,12 @@ export const MyTable = ({
                                 >
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{user.id}</TableCell>
-                                    <TableCell>{`${user.firstName} ${user.lastName} ${user.middleName}`}</TableCell>
-                                    <TableCell>{`${user.street} str., ${user.house} house, ${user.city}, ${user.country}`}</TableCell>
+                                    {user.middleName ? (
+                                        <TableCell>{`${user.firstName} ${user.lastName} ${user.middleName}`}</TableCell>
+                                    ) : (
+                                        <TableCell>{`${user.firstName} ${user.lastName}`}</TableCell>
+                                    )}
+                                    <TableCell>{`${user.street} ${addStreet(user.country)}, ${user.house}, ${user.city}, ${user.country}`}</TableCell>
                                     <TableCell>{user.phone}</TableCell>
                                 </TableRow>
                             );
