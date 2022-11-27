@@ -2,13 +2,18 @@ import { Box, TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Dropdown } from './Dropdown';
 import { MySlider } from './MySlider';
+import { useState } from 'react';
 
 export const Toolbar = ({
     handleSubmit,
     params,
     handleChange,
-    submitLoading,
+    loading,
 }) => {
+
+    // const [reset, setReset] = useState(false);
+
+
     return (
         <Box
             component='form'
@@ -32,7 +37,7 @@ export const Toolbar = ({
                 onChange={handleChange}
             />
             <LoadingButton
-                loading={submitLoading}
+                loading={loading}
                 type='submit'
                 style={{ height: 60 }}
                 variant='contained'

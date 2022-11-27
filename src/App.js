@@ -16,10 +16,10 @@ const initialResults = 20;
 export const App = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [submitLoading, setSubmitLoading] = useState(false);
     const [results, setResults] = useState(initialResults);
     const [page, setPage] = useState(initialPage);
     const [params, setParams] = useState(initialParams);
+    const [reset, setReset] = useState(false);
 
     const handleResult = () => setResults(10);
     const addPage = () => setPage(page + 1);
@@ -37,11 +37,12 @@ export const App = () => {
             .catch((err) => console.log(err))
             .finally(() => {
                 setLoading(false);
-                setSubmitLoading(false);
+                setReset(false);
             });
     };
 
     const resetParams = () => {
+        setReset(true);
         setUsers([]);
         setResults(initialResults);
         setPage(initialPage);
@@ -50,8 +51,11 @@ export const App = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        setSubmitLoading(true);
-        loadData();
+        if (users.length) {
+            resetParams();
+        } else {
+            loadData();
+        }
     };
 
     const handleChange = (event) => {
@@ -66,18 +70,19 @@ export const App = () => {
         } else {
             setParams({ ...params, [target.name]: target.value });
         }
-
-        if (JSON.stringify(initialParams) !== JSON.stringify(params)) {
-            resetParams();
-        }
     };
 
     useEffect(() => {
-        //skip first render
         if (users.length) {
             loadData();
         }
     }, [page, results]);
+
+    useEffect(() => {
+        if (!users.length && reset) {
+            loadData();
+        }
+    }, [reset])
 
     return (
         <Container>
@@ -85,7 +90,7 @@ export const App = () => {
                 handleSubmit={handleSubmit}
                 params={params}
                 handleChange={handleChange}
-                submitLoading={submitLoading}
+                loading={loading}
             />
             {!!users.length && (
                 <>
