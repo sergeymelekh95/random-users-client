@@ -5,7 +5,7 @@ import { Toolbar } from './components/Toolbar';
 import { BASE_URL } from './config';
 
 const initialParams = {
-    seed: '',
+    seed: Math.floor(Math.random() * 100),
     region: 'us',
     errors: 0,
 };
