@@ -73,9 +73,7 @@ export const App = () => {
     };
 
     useEffect(() => {
-        if (users.length) {
             loadData();
-        }
     }, [page, results]);
 
     useEffect(() => {
